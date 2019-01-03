@@ -7,14 +7,13 @@ export default class Search {
     }
     
     async getResults() {
-        // const crossorigin = "https://crossorigin.me/";
 
         try {
-            const res = await axios(`https://www.food2fork.com/api/search?key=${key}&q=${this.query}`);
-            const server = await axios("/api/getResults")
-
-            this.recipes = res.data.recipes;
-            console.log(server)
+            
+            const serverRes = await axios.get(`/api/getResults?q=${this.query}`);
+            
+            this.recipes = serverRes.data;
+        
         } catch(error) {
             console.log(error)
         }

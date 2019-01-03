@@ -1,16 +1,45 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const app = express()
+const axios = require('axios');
 
-app.
+const key = require('./configKey')
+
+const app = express()
 app.use(bodyParser.json())
+
+
 let port = process.env.dev || 3001
 
-app.get('/api/getResults', (req, res) => {
-    res.send('this is the call to server')
+
+//Routes
+app.get('/api/getResults', async (req, res) => {
+    const recipesList = await getRecipesList(req.query.q)
+    res.send(recipesList)
 })
 
-if(process.env.NODE_ENV = "production") {
+app.get('/api/getRecipe', async (req, res) => {
+    const recipe = await getRecipe(req.query.rId);
+
+    res.send(recipe)
+})
+
+
+//External API CALLS
+const getRecipesList = async (query) => {
+    const res = await axios(`https://www.food2fork.com/api/search?key=${key}&q=${query}`);
+    
+    return res.data.recipes
+}
+
+const getRecipe = async (id) => {
+    const res = await axios(`https://www.food2fork.com/api/get?key=${key}&rId=${id}`);
+
+    return res.data.recipe
+}
+
+
+
+if(process.env.NODE_ENV === "production") {
 
     app.use(express.static('client/dist'))
     
@@ -18,13 +47,6 @@ if(process.env.NODE_ENV = "production") {
         res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
     });
 }
-
-
-
-
-
-
-
 
 app.listen(port, () => {
     console.log('Server listening on Port ' + port);
