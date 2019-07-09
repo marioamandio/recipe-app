@@ -7,7 +7,7 @@ require("dotenv").config();
 const app = express();
 app.use(bodyParser.json());
 
-let port = process.env.dev || 3001;
+let port = process.env.PORT || 3001;
 
 //Routes
 app.get("/api/getResults", async (req, res) => {
