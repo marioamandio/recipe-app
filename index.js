@@ -24,7 +24,7 @@ app.get("/api/getRecipe", async (req, res) => {
 //External API CALLS
 const getRecipesList = async query => {
   const res = await axios(
-    `https://www.food2fork.com/api/search?key=${key.key}&q=${query}`
+    `https://www.food2fork.com/api/search?key=${key}&q=${query}`
   );
 
   return res.data;
@@ -32,7 +32,7 @@ const getRecipesList = async query => {
 
 const getRecipe = async id => {
   const res = await axios(
-    `https://www.food2fork.com/api/get?key=${key.key}&rId=${id}`
+    `https://www.food2fork.com/api/get?key=${key}&rId=${id}`
   );
 
   return res.data.recipe;
