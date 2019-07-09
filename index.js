@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const axios = require("axios");
 
-const key = require("./configKey");
+require("dotenv").config();
 
 const app = express();
 app.use(bodyParser.json());
@@ -24,7 +24,7 @@ app.get("/api/getRecipe", async (req, res) => {
 //External API CALLS
 const getRecipesList = async query => {
   const res = await axios(
-    `https://www.food2fork.com/api/search?key=${key}&q=${query}`
+    `https://www.food2fork.com/api/search?key=${process.env.KEY}&q=${query}`
   );
 
   return res.data;
@@ -32,7 +32,7 @@ const getRecipesList = async query => {
 
 const getRecipe = async id => {
   const res = await axios(
-    `https://www.food2fork.com/api/get?key=${key}&rId=${id}`
+    `https://www.food2fork.com/api/get?key=${process.env.KEY}&rId=${id}`
   );
 
   return res.data.recipe;
