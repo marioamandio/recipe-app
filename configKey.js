@@ -1,5 +1,10 @@
-const key = require("./key.js");
+let apiKey;
 
-const apikey = process.env.API_KEY || key.key;
+if (process.env.NODE_ENV === "production") {
+  apikey = process.env.KEY;
+} else {
+  const key = require("./key.js");
+  apiKey = key.key;
+}
 
 module.exports = apikey;
